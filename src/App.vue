@@ -1,7 +1,13 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
-    <test propdata="data from app.vue" ></test>
+    <test></test>
+    <!-- <nav>
+      <router-link to="/"> Hello </router-link>
+      <router-link to="/test"> Test </router-link>
+    </nav>
+
+    <router-view></router-view> -->
   </div>
 </template>
 
