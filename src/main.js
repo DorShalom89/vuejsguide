@@ -8,10 +8,14 @@ import Test from './components/Test'
 import Posts from './components/Posts'
 import vueResource from 'vue-resource'
 import {store} from './store'
-
+import VeeValidate from 'vee-validate';
+import VueWindowModal from 'vue-window-modal'
 
 Vue.use(VueRouter)
 Vue.use(vueResource)
+Vue.use(VeeValidate)
+Vue.use(VueWindowModal)
+
 
 const router = new VueRouter({
   mode: 'history',
@@ -33,15 +37,19 @@ const router = new VueRouter({
 });
 /* eslint-disable no-new */
 new Vue({
+VueWindowModal,
 store: store,
 router,
+VeeValidate,
 template: `
 <div id="app">
-  <ul>
-    <li> <router-link to="/" > Hello </router-link></li>
-    <li> <router-link to="/test/2" > Test </router-link></li>
-    <li> <router-link to="/posts" > Posts </router-link></li>
-  </ul>
+  <nav>
+    <a> <router-link to="/" > Hello </router-link></a>
+    <br>
+    <a> <router-link to="/test/2" > Test </router-link></a>
+    <br>
+    <a> <router-link to="/posts" > Posts </router-link></a>
+  </nav>
   <router-view></router-view>
 </div>
 `
