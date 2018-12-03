@@ -8,13 +8,11 @@ import Test from './components/Test'
 import Posts from './components/Posts'
 import vueResource from 'vue-resource'
 import {store} from './store'
-import VeeValidate from 'vee-validate';
-import VueWindowModal from 'vue-window-modal'
+import VeeValidate from 'vee-validate'
 
 Vue.use(VueRouter)
 Vue.use(vueResource)
 Vue.use(VeeValidate)
-Vue.use(VueWindowModal)
 
 
 const router = new VueRouter({
@@ -37,7 +35,6 @@ const router = new VueRouter({
 });
 /* eslint-disable no-new */
 new Vue({
-VueWindowModal,
 store: store,
 router,
 VeeValidate,

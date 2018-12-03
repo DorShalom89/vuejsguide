@@ -2,23 +2,30 @@
 <div class="main">
 
     <h2>Add post</h2>
-    <form v-on:submit= "addPost">
-        <input type="text" v-model = "newPost.title" placeholder="Enter title" name="title" v-validate="'required'">
-        <b v-show="errors.has('title')">{{ errors.first('title') }}</b>
+    <form v-on:submit= "addPost ">
+        <select v-model = "actionForm" v-validate = "{is_not: 'null'}" name="actionForm">
+            <option value = "null" selected hidden = "true">Plese select action </option>
+            <option value = "create">Create post</option>
+            <option value = "update">Update post</option>
+        </select>
+        <input type="number" v-model= "idToEdit" v-if="this.actionForm == 'update'" placeholder="Post id to edit">
+         <b class = "alert" v-if="errors.has('actionForm')">The action field is required</b>
+        <input type="text" v-model = "newPost.title" placeholder="Enter title" v-validate="'required'" name="title">
+        <b class = "alert" v-if="errors.has('title')">{{ errors.first('title')}}</b>
         <br>
-        <input type="text" v-model = "newPost.body" placeholder="Enter body" name="body" v-validate="'required'">
-        <b v-show="errors.has('body')">{{ errors.first('body') }}</b>
+        <input type="text" v-model = "newPost.body" placeholder="Enter body" v-validate="'required'" name="body">
+        <b class = "alert" v-if="errors.has('body')">{{ errors.first('body')}}</b>
         <br>
-        <select v-model = "newPost.userId" name="userId" v-validate="{is_not: 'null'}">
+        <select v-model = "newPost.userId" v-validate= "{is_not: 'null'}" name="userId">
             <option value = "null" selected hidden = "true">Plese select user</option>
             <option value = "1" >Dor</option>
             <option value = "2">Moshe</option>
             <option value = "3">Yaniv</option>
         </select>
-        <b v-show="errors.has('userId')">{{ errors.first('userId') }}</b>
+        <b class = "alert" v-if="errors.has('userId')">The user id field is required</b>
         <br>
-        <input type="text" v-model = "newPost.email" placeholder="Enter your E-Mail" name="email" v-validate= "{ email:true, required: true }">
-        <b v-show="errors.has('email')">{{ errors.first('email') }}</b>
+        <input type="text" v-model = "newPost.email" v-validate= "{ email:true, required: true }" placeholder="Enter your E-Mail" name="email">
+        <b class="text-danger" v-if="errors.has('email')">{{ errors.first('email') }}</b>
         <br>
         <input id="submit" type="submit" value="Submit">
         <br>
@@ -29,6 +36,8 @@
     <div class="btn-grp">
     <button id="get" v-on:click= "getPosts">Get posts</button>
     <button id="post" v-on:click= "sendPosts">Send posts</button>
+    <button id="put" >Get posts</button>
+    <button id="delete" >Send posts</button>
     </div>
     <ul v-for = "post in posts" :key="post.id">
         <li>userId: {{post.userId}}</li>
@@ -62,20 +71,18 @@ export default {
       },
     addPost: function(event){
         event.preventDefault();
-        this.$validator.validateAll().then((result) =>{
+        this.$validator.validateAll().then((result)=>{
             if(result){
                 this.$store.state.posts.push({
                     userId: this.newPost.userId,
                     id: this.currentId,
                     title: this.newPost.title,
                     body: this.newPost.body
-        })
-        this.currentId++;
-        this.newPost = { userId: "null"}
+                })
+                this.currentId++;
+                this.newPost = { userId: "null"}
             }
         })
-        
-
     },
     sendPosts: function(){
         this.$store.commit('sendPosts')
